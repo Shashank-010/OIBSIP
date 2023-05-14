@@ -1,0 +1,95 @@
+
+import java.util.Scanner;
+import java.util.Random;
+
+class Games {
+    private int guessNo, cha, poi;
+    private final int realNumber;
+
+    Games() {
+        Random rn = new Random();
+        realNumber = rn.nextInt(100);
+    }
+
+    public void setPoints(int poi) {
+        this.poi = poi;
+    }
+
+    public void setChances(int cha) {
+        this.cha = cha;
+    }
+
+    public int getChances() {
+        return cha;
+    }
+
+    public void setGuessedNumber(int guessNo) {
+        this.guessNo = guessNo;
+    }
+
+    public boolean guessIt() {
+        if (cha == 9) {
+            cha++;
+            return false;
+        } else if (realNumber == guessNo) {
+            System.out.println("You Guessed it Right ! CONGRATULATIONS:)");
+            System.out.println("Your Score is: " + (10 - poi) * 10);
+            System.out.println("The answer is " + realNumber);
+            return true;
+        } else if (realNumber < guessNo) {
+            System.out.println("You guessed more than the number");
+            cha++;
+            poi++;
+            System.out.println((10 - cha) + " NO. OF chances left");
+            return false;
+        } else {
+            System.out.println("You guessed less  than the number");
+            cha++;
+            poi++;
+            System.out.println((10 - cha) + " no. of chances left");
+            return false;
+        }
+    }
+}
+
+public class guessthenumbergame {
+    public static void main(String[] args) {
+        Games game = new Games();
+        Scanner sc = new Scanner(System.in);
+        int choice = 1;
+        System.out.println("*************Guess the Number Game******************");
+        boolean exitVar = false;
+        while (choice != 0) {
+            System.out.println("1. Play The Game");
+            System.out.println("2. Quit The Game");
+            System.out.println("Enter your choice:");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1 -> {
+                    boolean won = false;
+                    game.setChances(0);
+                    game.setPoints(0);
+                    while (!exitVar && !won) {
+                        System.out.println("Enter any number of your choice:");
+                        game.setGuessedNumber(sc.nextInt());
+                        exitVar = game.guessIt();
+                        if (game.getChances() == 10) {
+                            System.out.println("Sorry you have lost!");
+                            break;
+                        }
+                        if (exitVar) {
+                            won = true;
+                        }
+                    }
+                    exitVar = false;
+                    System.out.println();
+                }
+                case 2 -> {
+                    System.out.println("Quitting the game.");
+                    choice = 0;
+                }
+                default -> System.out.println("Invalid entry! Enter the number again.");
+            }
+        }
+    }
+}
