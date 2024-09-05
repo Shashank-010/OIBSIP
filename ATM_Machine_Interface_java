@@ -1,0 +1,110 @@
+import java.util.Scanner;
+
+class Login {
+    int id = 1;
+    int PIN = 123;
+    double balance = 100.0;
+    Scanner sc = new Scanner(System.in);
+
+    public void loginPage() {
+        System.out.println("ENTER YOUR BANK USER ID");
+        int enteredID = sc.nextInt();
+
+        System.out.println("ENTER YOUR BANK USER PASSWORD");
+        int enteredPin = sc.nextInt();
+
+        if (enteredID == id && enteredPin == PIN) {
+            menu();
+        } else {
+            System.out.println("Incorrect ID or password. Please try again.");
+            loginPage();
+        }
+    }
+
+    public void menu() {
+        System.out.println("1. TRANSACTION HISTORY");
+        System.out.println("2. WITHDRAW MONEY");
+        System.out.println("3. DEPOSIT MONEY");
+        System.out.println("4. TRANSFER MONEY");
+        System.out.println("5. QUIT");
+
+        System.out.println("Enter your choice (1-5):");
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 1:
+                transHistory();
+                break;
+            case 2:
+                withdraw();
+                break;
+            case 3:
+                deposit();
+                break;
+            case 4:
+                transfer();
+                break;
+            case 5:
+                System.out.println("Thank you for using the ATM. Goodbye!");
+                break;
+            default:
+                System.out.println("Please enter a valid choice.");
+                menu();
+                break;
+        }
+    }
+
+    public void transHistory() {
+        System.out.println("Transaction history is not implemented yet.");
+        System.out.println("CURRENT BALANCE: " + balance);
+        menu();
+    }
+
+    public void withdraw() {
+        System.out.println("CURRENT BALANCE: " + balance);
+        System.out.println("Enter the amount you want to withdraw:");
+        int amt = sc.nextInt();
+
+        if (amt > balance) {
+            System.out.println("INSUFFICIENT BALANCE");
+        } else {
+            balance -= amt;
+            System.out.println("Withdrawal successful. New balance: " + balance);
+        }
+        menu();
+    }
+
+    public void deposit() {
+        System.out.println("CURRENT BALANCE: " + balance);
+        System.out.println("Enter the amount you want to deposit:");
+        int amt = sc.nextInt();
+
+        balance += amt;
+        System.out.println("Money deposited successfully. New balance: " + balance);
+        menu();
+    }
+
+    public void transfer() {
+        System.out.println("CURRENT BALANCE: " + balance);
+        System.out.println("Enter the account number of the recipient:");
+        int recAccount = sc.nextInt(); 
+        System.out.println("Enter the amount to transfer:");
+        int transAmount = sc.nextInt();
+
+        if (balance >= transAmount) {
+            balance -= transAmount;
+            System.out.println("Transfer successful to account " + recAccount);
+            System.out.println("New balance: " + balance);
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+        menu();
+    }
+}
+
+public class AtmMachine {
+    public static void main(String[] args) {
+        Login obj = new Login();
+        obj.loginPage();
+    }
+}
